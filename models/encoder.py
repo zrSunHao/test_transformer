@@ -1,7 +1,6 @@
 import torch.nn as nn
-import copy
 
-from .layer import LayerNorm, SublayerConnection
+from .layer import LayerNorm, SublayerConnection, clones
 
 '''
 编码器层，堆叠编码器层即可获得编码器
@@ -18,7 +17,7 @@ class EncoderLayer(nn.Module):
         self.size = size
         self.self_attn = self_attn
         self.feed_forward = feed_forward
-        # 多头自注意力的残差连接与归一化
+        # 多头自注意力层的残差连接与归一化
         self.sublayer_attn = SublayerConnection(size, dropout)
         # 前馈网络的残差连接与归一化
         self.sublayer_fw = SublayerConnection(size, dropout)
@@ -29,15 +28,6 @@ class EncoderLayer(nn.Module):
         out = self.sublayer_attn(x, self_attn)
         out = self.sublayer_fw(x, self.feed_forward)
         return out
-
-
-'''
-工具函数
-基于一个编码器层快速获得 N 个相同的编码器层
-'''
-def clones(module, N):
-    layers = [copy.deepcopy(module) for _ in range(N)]
-    return nn.ModuleList(layers)
 
 
 '''

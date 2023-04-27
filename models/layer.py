@@ -1,6 +1,7 @@
 import torch.nn as nn
 import torch as t
 import torch.nn.functional as F
+import copy
 
 '''
 层归一化，见公式
@@ -27,8 +28,6 @@ class LayerNorm(nn.Module):
 
         out = self.a_2 * (x - mean) / (std - self.eps) + self.b_2
         return out
-
-
 
 
 
@@ -60,8 +59,6 @@ class SublayerConnection(nn.Module):
 
         
 
-
-
 '''
 前向网络层
 '''
@@ -90,3 +87,11 @@ class PositionwiseFeedForward(nn.Module):
         return out
 
 
+
+'''
+工具函数
+基于一个编码器层快速获得 N 个相同的编码器层
+'''
+def clones(module, N):
+    layers = [copy.deepcopy(module) for _ in range(N)]
+    return nn.ModuleList(layers)
