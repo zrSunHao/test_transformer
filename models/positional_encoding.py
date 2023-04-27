@@ -2,7 +2,32 @@ import torch.nn as nn
 import torch as t
 import math
 
-# 词向量添加位置编码
+
+'''
+词嵌入
+'''
+class Embeddings(nn.Module):
+   
+    '''
+    d_model:    词向量的大小
+    vocab:      词表的大小
+    '''
+    def __init__(self, d_model, vocab):
+       super(Embeddings, self).__init__()
+       self.lut = nn.Embedding(num_embeddings=vocab,
+                               embedding_dim=d_model)
+       self.d_model = d_model
+
+    def forward(self, x):
+        a = math.sqrt(self.d_model)
+        out = self.lut(x) * a
+        return out
+
+
+
+'''
+词向量添加位置编码
+'''
 class PositionalEncoding(nn.Module):
 
     '''
@@ -44,6 +69,9 @@ class PositionalEncoding(nn.Module):
         pe = pe.unsqueeze(0)        # [1,5000,512]         
         self.pe = pe
 
+    '''
+    x:   词向量
+    '''
     def forward(self, x):
         num = x.size(0)             # 句子中词向量的个数
         x = x + self.pe[:, :num]    # 词向量与位置编码相加

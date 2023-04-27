@@ -7,7 +7,7 @@ from .layer import LayerNorm, SublayerConnection, clones
 '''
 解码器层，堆叠解码器层即可获得解码器
 '''
-class DocoderLayer(nn.Module):
+class DecoderLayer(nn.Module):
     
     '''
     size:           d_model
@@ -16,7 +16,7 @@ class DocoderLayer(nn.Module):
     feed_forward:   前馈网络层
     '''
     def __init__(self, size, self_attn, src_attn, feed_forward, dropout):
-        super(DocoderLayer, self).__init__()
+        super(DecoderLayer, self).__init__()
         self.size = size
         self.self_attn = self_attn
         self.src_attn = src_attn
