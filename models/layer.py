@@ -1,7 +1,6 @@
 import torch.nn as nn
 import torch as t
 import torch.nn.functional as F
-import math
 
 '''
 层归一化，见公式
