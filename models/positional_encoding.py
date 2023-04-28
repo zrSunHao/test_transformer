@@ -1,5 +1,6 @@
 import torch.nn as nn
 import torch as t
+from torch.autograd import Variable
 import math
 
 
@@ -74,7 +75,7 @@ class PositionalEncoding(nn.Module):
     '''
     def forward(self, x):
         num = x.size(0)             # 句子中词向量的个数
-        x = x + self.pe[:, :num]    # 词向量与位置编码相加
+        x = x + Variable(self.pe[:, :num], requires_grad=False)    # 词向量与位置编码相加
         out = self.dropout(x)
         return out
 

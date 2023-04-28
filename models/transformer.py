@@ -3,7 +3,6 @@ import torch.nn.functional as F
 import copy
 
 from .attention import MultiHeadedAttention
-from .mask import subsequent_mask
 from .layer import PositionwiseFeedForward
 from .positional_encoding import Embeddings, PositionalEncoding
 from .encoder import EncoderLayer, Encoder
