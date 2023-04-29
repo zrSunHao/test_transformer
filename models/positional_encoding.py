@@ -66,7 +66,6 @@ class PositionalEncoding(nn.Module):
         pe:[5000,512]
         '''
         pe[:, 1::2] = t.cos(pos * div_term)
-        print((pos * div_term)[1, :].size())
         pe = pe.unsqueeze(0)        # [1,5000,512]         
         self.pe = pe
 

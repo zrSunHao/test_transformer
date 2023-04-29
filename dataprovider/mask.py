@@ -16,12 +16,12 @@ def subsequent_mask(size):
 
 
 # 测试
-print(subsequent_mask(5))
-'''
-[[  [False, False, False, False, False],
-    [ True, False, False, False, False],
-    [ True,  True, False, False, False],
-    [ True,  True,  True, False, False],
-    [ True,  True,  True,  True, False]     ]]
+# print(subsequent_mask(5))
+# '''
+# [[  [False, False, False, False, False],
+#     [ True, False, False, False, False],
+#     [ True,  True, False, False, False],
+#     [ True,  True,  True, False, False],
+#     [ True,  True,  True,  True, False]     ]]
 
-'''
+# '''

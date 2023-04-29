@@ -5,7 +5,7 @@ class DefaultConfig(object):
     epoch_max = 40                          # 训练轮次
     epoch_current = 1                       # 当前轮次
 
-    data_root = 'D:/WorkSpace/DataSet/translation'      # 训练集根目录
+    data_root = 'D:/WorkSpace/DataSet/translation/'      # 训练集根目录
     dict_zh_path = 'dict.zh-cn'                         # 中文词编码
     dict_en_path = 'dict.en'                            # 英文词编码
     train_zh_path = 'train.zh-cn.bped'                  # ted 中文平行语料
