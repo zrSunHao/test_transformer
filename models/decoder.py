@@ -44,7 +44,7 @@ class DecoderLayer(nn.Module):
         src_attn = lambda v: self.src_attn(v, m, m, src_mask)
         out = self.sublayer_src_attn(x, src_attn)
         # 前馈网络层
-        out = self.sublayer_fw(out)
+        out = self.sublayer_fw(out, self.feed_forward)
         return out
         
 

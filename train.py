@@ -9,12 +9,13 @@ cfg = DefaultConfig()
 V_zh = 12203 + 2    # 中文词表的长度，dict.zh-cn 的行数
 V_en = 30684 + 2    # 英文词表的长度，dict.en 的行数
 
-criterion = LabelSmoothing(size = V_zh, 
-                           padding_idx = 0, 
+criterion = LabelSmoothing(voc_size = V_zh, 
+                           padding_idx = 0, # 开始标识符所在的位置
                            smoothing = 0.0)
 model = make_model(src_vocab = V_en, 
                    tgt_vocab = V_zh, 
-                   N = 2)
+                   N = 2,
+                   device=cfg.device)
 optim = get_std_opt(model=model)
 
 for epoch in range(10):
@@ -27,5 +28,7 @@ for epoch in range(10):
     loss_compute = SimpleLossCompute(model.generator, criterion, optim)
     run_epoch(data_iter = data_iter, 
               model = model,
-              loss_compute = loss_compute)
+              loss_compute = loss_compute,
+              device=cfg.device)
+
 

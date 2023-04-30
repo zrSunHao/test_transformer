@@ -1,6 +1,6 @@
 class DefaultConfig(object):
 
-    device = 'cuda'                         # 设备
+    device = 'cpu'                         # 设备
     print_every = 200                       # 进度输出频率
     epoch_max = 40                          # 训练轮次
     epoch_current = 1                       # 当前轮次

@@ -2,6 +2,7 @@ import torch.nn as nn
 import torch as t
 from torch.autograd import Variable
 import math
+import numpy as np
 
 
 '''
@@ -21,6 +22,7 @@ class Embeddings(nn.Module):
 
     def forward(self, x):
         a = math.sqrt(self.d_model)
+        # nn.Embedding: [B, token_num] --> [B, token_num, d_model]
         out = self.lut(x) * a
         return out
 
@@ -77,6 +79,7 @@ class PositionalEncoding(nn.Module):
         B, token_num, d_model = x.size()
         # [1, 5000, d_model] --> [1, token_num, d_model]
         pe = Variable(self.pe[:, :token_num], requires_grad=False) 
+        pe = pe.to(x.device)
         x = x + pe
         # 词向量与位置编码相加
         out = self.dropout(x)

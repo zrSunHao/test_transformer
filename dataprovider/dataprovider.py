@@ -51,6 +51,7 @@ class Batch:
     pad:    掩码的填充值，默认为0
     '''
     def __init__(self, src, tgt=None, pad=0):
+        # [B, token_num]
         self.src = src
         '''
         源语言句子的掩码矩阵
@@ -65,6 +66,7 @@ class Batch:
             '''
             self.tgt = tgt[:,:-1] 
             '''
+            期待的目标语言句子输出
             每个句子去掉起始位置的一个开始标识符
             [B, token_num] --> [B, token_num-1]
             '''

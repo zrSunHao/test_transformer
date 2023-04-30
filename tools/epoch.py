@@ -6,17 +6,17 @@ Standard Training and Logging Function
     model:      模型
     loss_compute:   损失计算
 '''
-def run_epoch(data_iter, model, loss_compute):
+def run_epoch(data_iter, model, loss_compute, device='cpu'):
     start = time.time()
     total_tokens = 0
     total_loss = 0
     tokens = 0
 
     for i, batch in enumerate(data_iter):
-        src = batch.src
-        tgt = batch.tgt
-        src_mask = batch.src_mask
-        tgt_mask = batch.tgt_mask
+        src = batch.src.to(device)
+        tgt = batch.tgt.to(device)
+        src_mask = batch.src_mask.to(device)
+        tgt_mask = batch.tgt_mask.to(device)
         out = model.forward(src, tgt, src_mask, tgt_mask)
 
         tgt_y = batch.tgt_y
@@ -26,7 +26,7 @@ def run_epoch(data_iter, model, loss_compute):
         total_tokens += ntokens
         tokens += ntokens
 
-        if i%50 == 1:
+        if i!=0 and i%50 == 0:
             elapsed = time.time() - start
             print("Epoch Step: %d Loss: %f Tokens per Sec: %f" %
                    (i, loss / batch.ntokens, tokens / elapsed))

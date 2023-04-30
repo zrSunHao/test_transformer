@@ -13,7 +13,7 @@ def attention(query, key, value, mask=None, dropout=None):
     
     d_k = key.size(-1)          # 每个key 的长度
     # key 的转置，这里通过交换 key 的维度实现
-    t_k = key.Transpose(-2, -1) # [B, num, d_k] --> [B, d_k, num]
+    t_k = key.transpose(-2, -1) # [B, num, d_k] --> [B, d_k, num]
     # query * T_key / sqrt(d_k) 计算相似度得分 [B, num, num]
     scores = t.matmul(query, t_k) / math.sqrt(d_k)
     

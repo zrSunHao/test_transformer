@@ -36,25 +36,28 @@ class Transformer(nn.Module):
     def forward(self, src, tgt, src_mask, tgt_mask):
         memory = self.encode(src, src_mask)
         out = self.decode(memory, src_mask, tgt, tgt_mask)
+        return out
 
     '''
     编码器编码
-    src:    源语言的词向量
-    mask:   源语言的掩码
+    src:    源语言的词向量  [B, token_num]
+    mask:   源语言的掩码    [B, 1, token_num]
     '''
     def encode(self, src, mask):
+        # [B, token_num] --> [B, 1, token_num]
         x = self.src_embed(src)
-        memory = self.decoder(x, mask)
+        memory = self.encoder(x, mask)
         return memory
 
     '''
     解码器解码
-    memory:     编码器的输出
-    src_mask:   源语言的编码
-    tgt:        目标语言的词向量
-    tgt_mask:   目标语言的掩码
+    memory:     编码器的输出        [B, token_num, d_model]
+    src_mask:   源语言的编码        [B, 1, token_num]
+    tgt:        目标语言的词向量    [B, token_num]
+    tgt_mask:   目标语言的掩码      [B, token_num, token_num]
     '''
     def decode(self, memory, src_mask, tgt, tgt_mask):
+        # [B, token_num] --> [B, token_num, d_model]
         x = self.tgt_embed(tgt)
         out = self.decoder(x, memory, src_mask, tgt_mask)
         return out
@@ -70,7 +73,9 @@ class Transformer(nn.Module):
     d_ff:       前馈网络层中间维度的大小
     h:          多头注意力中头的个数
 '''
-def make_model(src_vocab, tgt_vocab, N=6, d_model=512, d_ff=2048, h=8, dropout=0.1):
+def make_model(src_vocab, tgt_vocab, N=6, 
+               d_model=512, d_ff=2048, h=8, 
+               dropout=0.1, device='cpu'):
     c = copy.deepcopy
 
     # 实例化多头注意力
@@ -106,7 +111,7 @@ def make_model(src_vocab, tgt_vocab, N=6, d_model=512, d_ff=2048, h=8, dropout=0
 
     # 实例化模型
     model = Transformer(encoder, decoder, src_embed, tgt_embed, generator)
-
+    model = model.to(device)
     # 初始化参数，重要，xavier_uniform 是一种初始化方法
     for p in model.parameters():
         if p.dim() > 1:
