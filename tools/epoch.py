@@ -20,7 +20,7 @@ def run_epoch(data_iter, model, loss_compute):
         out = model.forward(src, tgt, src_mask, tgt_mask)
 
         tgt_y = batch.tgt_y
-        ntokens = batch.ntokens
+        ntokens = batch.ntokens     # 当前batch目标语言的token总数
         loss = loss_compute(out, tgt_y, ntokens)
         total_loss += loss
         total_tokens += ntokens
