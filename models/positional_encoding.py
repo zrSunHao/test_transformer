@@ -15,8 +15,8 @@ class Embeddings(nn.Module):
     '''
     def __init__(self, d_model, vocab):
        super(Embeddings, self).__init__()
-       self.lut = nn.Embedding(num_embeddings=vocab,
-                               embedding_dim=d_model)
+       self.lut = nn.Embedding(num_embeddings = vocab,
+                               embedding_dim = d_model)
        self.d_model = d_model
 
     def forward(self, x):
@@ -66,22 +66,26 @@ class PositionalEncoding(nn.Module):
         pe:[5000,512]
         '''
         pe[:, 1::2] = t.cos(pos * div_term)
-        pe = pe.unsqueeze(0)        # [1,5000,512]         
+        pe = pe.unsqueeze(0)        # [1, 5000, 512]         
         self.pe = pe
 
     '''
-    x:   词向量
+    x:   词向量 [B, token_num, d_model]
     '''
     def forward(self, x):
-        num = x.size(0)             # 句子中词向量的个数
-        x = x + Variable(self.pe[:, :num], requires_grad=False)    # 词向量与位置编码相加
+        # 句子中词向量的个数
+        B, token_num, d_model = x.size()
+        # [1, 5000, d_model] --> [1, token_num, d_model]
+        pe = Variable(self.pe[:, :token_num], requires_grad=False) 
+        x = x + pe
+        # 词向量与位置编码相加
         out = self.dropout(x)
         return out
 
 
-po = PositionalEncoding(512)
-a = t.ones(0,512)
-a.unsqueeze(1)
-po(a)
+# po = PositionalEncoding(512)
+# a = t.ones(0,512)
+# a.unsqueeze(1)
+# po(a)
 
 
