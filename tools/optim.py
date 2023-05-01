@@ -47,6 +47,7 @@ class NoamOpt:
 获取优化器
 '''
 def get_std_opt(model):
+    # model.src_embed[0] 即 Embeddings
     model_size = model.src_embed[0].d_model
     factor = 2
     warmup = 4000
